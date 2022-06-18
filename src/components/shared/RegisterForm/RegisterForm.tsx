@@ -15,16 +15,22 @@ export const RegisterForm = ({ type = 'login' }) => {
     password: '',
     _password: '',
   });
+  const [message, setMessage] = useState<string>('');
 
-  const { signUp } = useDispatchAcions();
+  const { signUp, login, auth } = useDispatchAcions();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    const { email, password, _password } = user;
 
-    signUp(user.email, user.password);
+    if (type === 'sign up' && password !== _password) {
+      return setMessage(() => 'Passwords need be same');
+    }
+    type === 'login' ? login(email, password) : signUp(email, password);
+
     setUser({ email: '', password: '', _password: '' });
   };
 
@@ -65,6 +71,7 @@ export const RegisterForm = ({ type = 'login' }) => {
         )}
         <button>{type.capitalize()}</button>
       </form>
+      <button onClick={() => auth()}>Auth</button>
     </section>
   );
 };
