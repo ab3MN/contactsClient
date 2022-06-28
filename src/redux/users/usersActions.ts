@@ -7,6 +7,10 @@ export enum USER_TYPES {
   LOGIN_USER_START = 'LOGIN_USER_START',
   LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS',
   LOGIN_USER_ERROR = 'LOGIN_USER_ERROR',
+
+  AUTH_USER_START = 'AUTH_USER_START',
+  AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS',
+  AUTH_USER_ERROR = 'AUTH_USER_ERROR',
 }
 export interface ISignUpUserStart {
   type: USER_TYPES.SIGN_UP_USER_START;
@@ -30,6 +34,17 @@ export interface ILoginUserError {
   type: USER_TYPES.LOGIN_USER_ERROR;
   payload: { error: any };
 }
+export interface IAuthUserStart {
+  type: USER_TYPES.AUTH_USER_START;
+}
+export interface IAuthUserSuccess {
+  type: USER_TYPES.AUTH_USER_SUCCESS;
+  payload: { user: IUser };
+}
+export interface IAuthUserError {
+  type: USER_TYPES.AUTH_USER_ERROR;
+  payload: { error: any };
+}
 
 export type signUpUserType =
   | ISignUpUserStart
@@ -40,3 +55,5 @@ export type loginUserType =
   | ILoginUserStart
   | ILoginUserSuccess
   | ILoginUserError;
+
+export type authUserType = IAuthUserStart | IAuthUserSuccess | IAuthUserError;

@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { Dispatch } from 'react';
-import { loginUserType, signUpUserType, USER_TYPES } from './usersActions';
+import {
+  authUserType,
+  loginUserType,
+  signUpUserType,
+  USER_TYPES,
+} from './usersActions';
 
 axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.withCredentials = true;
@@ -53,14 +58,19 @@ export const login =
     }
   };
 
-export const auth = () => async () => {
+export const auth = () => async (d: Dispatch<authUserType>) => {
   const _token = sessionStorage.getItem('token');
   _token && token.set(_token);
+
   try {
+    d({ type: USER_TYPES.AUTH_USER_START });
     const { data } = await axios('/users/auth');
-    console.log(data._user);
-  } catch (e) {}
+    d({ type: USER_TYPES.AUTH_USER_SUCCESS, payload: data });
+  } catch (e) {
+    d({ type: USER_TYPES.AUTH_USER_ERROR, payload: { error: e } });
+  }
 };
+
 export const logOut = () => async () => {
   try {
     await axios.post('/users/logout');

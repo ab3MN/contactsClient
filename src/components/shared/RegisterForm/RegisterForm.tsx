@@ -17,7 +17,7 @@ export const RegisterForm = ({ type = 'login' }) => {
   });
   const [message, setMessage] = useState<string>('');
 
-  const { signUp, login, auth } = useDispatchAcions();
+  const { signUp, login } = useDispatchAcions();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -71,7 +71,6 @@ export const RegisterForm = ({ type = 'login' }) => {
         )}
         <button>{type.capitalize()}</button>
       </form>
-      <button onClick={() => auth()}>Auth</button>
     </section>
   );
 };
