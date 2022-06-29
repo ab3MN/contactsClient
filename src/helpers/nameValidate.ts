@@ -1,4 +1,1 @@
-export const validateName = (name: string) => {
-  const pattern = /^[a-zA-Z]+ [a-zA-Z]+$/;
-  return pattern.test(name);
-};
+export const validateName = (name: any) => /^[a-zA-Z]*$/.test(name);

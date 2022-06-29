@@ -6,9 +6,10 @@ import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import { useTypedSelector } from '../hooks/useTypedSelectors';
 import { useDispatchAcions } from '../hooks/useDispatchActions';
 import Contacts from './Contacts/Contacts';
+import ContactPage from '../pages/ContactPage/ContactPage';
 
 const App: FC = () => {
-  const { isAuthenticated } = useTypedSelector((s) => s.user);
+  const { isAuthenticated } = useTypedSelector(s => s.user);
   const { auth } = useDispatchAcions();
 
   useEffect(() => {
@@ -19,10 +20,11 @@ const App: FC = () => {
     <>
       <Nav />
       <Routes>
-        <Route path='/' element={<div>Some Home Page</div>} />{' '}
-        <Route path='/login' element={<LoginPage />} />{' '}
-        <Route path='/signup' element={<SignUpPage />} />{' '}
-        <Route path='/contacts' element={<Contacts />} />
+        <Route path="/" element={<div>Some Home Page</div>} />{' '}
+        <Route path="/login" element={<LoginPage />} />{' '}
+        <Route path="/signup" element={<SignUpPage />} />{' '}
+        <Route path="/contacts" element={<Contacts />} />{' '}
+        <Route path="/contacts/:contact" element={<ContactPage />} />
       </Routes>
     </>
   );

@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import './Modal.scss';
 
 interface IModalProps {
   children: React.ReactNode;
@@ -6,6 +7,8 @@ interface IModalProps {
 }
 
 const Modal: FC<IModalProps> = ({ children, onClose }) => {
+  const backdropRef: React.RefObject<HTMLInputElement> = React.useRef(null);
+
   React.useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) =>
       e.code !== 'Escape' ? undefined : onClose();
@@ -17,7 +20,19 @@ const Modal: FC<IModalProps> = ({ children, onClose }) => {
     };
   }, [onClose]);
 
-  return <div>{children}</div>;
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) =>
+    backdropRef.current && e.target !== backdropRef.current
+      ? undefined
+      : onClose();
+
+  return (
+    <div
+      className='modal__backrop'
+      onClick={handleBackdropClick}
+      ref={backdropRef}>
+      <div className='modal'>{children}</div>
+    </div>
+  );
 };
 
 export default Modal;

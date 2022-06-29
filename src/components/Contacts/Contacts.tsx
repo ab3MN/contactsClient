@@ -4,21 +4,25 @@ import { useEffect } from 'react';
 import ContactList from './ContactList';
 import { MyLoader } from '../shared/Loader/MyLoader';
 import { ContactType } from './ContactsType';
+import Modal from '../shared/Modal/Modal';
+import FormEditor from '../shared/FormEditor/FormEditor';
 
 const Contacts = () => {
   const [contacts, setContacts] = React.useState<ContactType[]>([]);
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string>('');
   const [isModalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [contact, setContact] = React.useState<ContactType>();
+  const [type, setType] = React.useState<string>('');
 
   useEffect(() => {
     axios
       .get<ContactType[]>('/contacts')
-      .then((response) => {
+      .then(response => {
         setContacts(response.data);
         setLoading(false);
       })
-      .catch((e) => {
+      .catch(e => {
         const error =
           e.response.status === 404
             ? 'Resource Not found'
@@ -31,7 +35,7 @@ const Contacts = () => {
   const deleteContact = (id: string): void => {
     try {
       axios.delete<string>('/contacts/' + id);
-      setContacts((contacts) => contacts.filter(({ _id }) => _id !== id));
+      setContacts(contacts => contacts.filter(({ _id }) => _id !== id));
     } catch (e: any) {
       const error =
         e.response.status === 404
@@ -40,24 +44,37 @@ const Contacts = () => {
       setError(error);
     }
   };
-  const editContact = (id: string, email: string, name: string): void => {
+  const editContact = async (
+    id: string | undefined,
+    email: string | undefined,
+    name: string | undefined,
+  ): Promise<any> => {
     try {
-      axios.put<string>('/contacts/' + id);
+      await axios.put<string>('/contacts/' + id, { name, email });
 
-      // setContacts((contacts) =>
-      //   contacts.reduce((a, b) => {
-      //     b._id === id
-      //       ? a.push({ ...b, ...{ email: email, name } })
-      //       : a.push(b);
-      //     return a;
-      //   }, [])
-      // );
-
-      setContacts((contacts) =>
-        contacts.map((el) =>
-          el._id === id ? Object.assign({}, el, { name, email }) : el
-        )
+      setContacts(contacts =>
+        contacts.map(el =>
+          el._id === id ? Object.assign({}, el, { email, name }) : el,
+        ),
       );
+    } catch (e: any) {
+      const error =
+        e.response.status === 400
+          ? 'missing fields'
+          : 'An unexpected error has occurred';
+      setError(error);
+    }
+  };
+  const addContact = async (
+    email: string | undefined,
+    name: string | undefined,
+  ): Promise<any> => {
+    try {
+      const res = await axios.post<ContactType>('/contacts', {
+        name,
+        email,
+      });
+      setContacts(contacts => [...contacts, res.data]);
     } catch (e: any) {
       const error =
         e.response.status === 400
@@ -70,8 +87,25 @@ const Contacts = () => {
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
+  const getContactInfo = (id: string) => (
+    setContact(contacts.find(({ _id }) => _id === id)), setType('edit')
+  );
+
   return (
     <>
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <FormEditor
+            type={type}
+            onEdit={editContact}
+            email={contact?.email}
+            name={contact?.name}
+            id={contact?._id}
+            onClose={closeModal}
+            onAdd={addContact}
+          />
+        </Modal>
+      )}
       {isLoading ? (
         <MyLoader />
       ) : (
@@ -79,8 +113,18 @@ const Contacts = () => {
           contacts={contacts}
           deleteContact={deleteContact}
           openModal={openModal}
+          getContactInfo={getContactInfo}
         />
       )}
+      <button
+        type="button"
+        onClick={() => {
+          openModal();
+          setType('add');
+        }}
+      >
+        Add Contact
+      </button>
     </>
   );
 };

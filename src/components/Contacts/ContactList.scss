@@ -1,7 +1,20 @@
-.contact--list {
-  display: flex;
-  align-items: center;
-  padding-bottom: 30px;
+.contacts--list {
+  width: 1200px;
+  margin: 0 auto;
+
+  &__link {
+    display: flex;
+    color: rgb(22, 134, 185);
+  }
+  &__link:hover {
+    color: pink;
+  }
+  &__item {
+    display: flex;
+    align-items: center;
+    padding-bottom: 30px;
+  }
+
   &__img {
     padding-right: 20px;
   }
