@@ -48,13 +48,14 @@ const Contacts = () => {
     id: string | undefined,
     email: string | undefined,
     name: string | undefined,
+    phone: string | undefined,
   ): Promise<any> => {
     try {
-      await axios.put<string>('/contacts/' + id, { name, email });
+      await axios.put<string>('/contacts/' + id, { name, email, phone });
 
       setContacts(contacts =>
         contacts.map(el =>
-          el._id === id ? Object.assign({}, el, { email, name }) : el,
+          el._id === id ? Object.assign({}, el, { email, name, phone }) : el,
         ),
       );
     } catch (e: any) {
@@ -87,9 +88,10 @@ const Contacts = () => {
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
-  const getContactInfo = (id: string) => (
-    setContact(contacts.find(({ _id }) => _id === id)), setType('edit')
-  );
+  const getContactInfo = (id: string) => {
+    setContact(contacts.find(({ _id }) => _id === id));
+    setType('edit');
+  };
 
   return (
     <>
@@ -100,6 +102,7 @@ const Contacts = () => {
             onEdit={editContact}
             email={contact?.email}
             name={contact?.name}
+            phone={contact?.phone}
             id={contact?._id}
             onClose={closeModal}
             onAdd={addContact}

@@ -6,22 +6,28 @@ import './FormEditor.scss';
 interface IEditForm {
   email: string | undefined;
   name: string | undefined;
+  phone: string | undefined;
 }
 interface _IEditForm extends IEditForm {
   onEdit: (
     email: string | undefined,
     name: string | undefined,
+    phone: string | undefined,
+
     id: string | undefined,
   ) => Promise<any>;
-  id: string | undefined;
-  onClose: () => void;
-  type: string;
   onAdd: (email: string | undefined, name: string | undefined) => Promise<any>;
+
+  id: string | undefined;
+  type: string;
+
+  onClose: () => void;
 }
 
 const EditForm: FC<_IEditForm> = ({
   email,
   name,
+  phone,
   onEdit,
   id,
   onClose,
@@ -31,6 +37,7 @@ const EditForm: FC<_IEditForm> = ({
   const [_contact, setContact] = React.useState<IEditForm>({
     email: email || '',
     name: name || '',
+    phone: phone || '',
   });
   const [message, setMessage] = React.useState<string>('');
 
@@ -39,7 +46,7 @@ const EditForm: FC<_IEditForm> = ({
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const { email, name } = _contact;
+    const { email, name, phone } = _contact;
 
     if (!validateEmail(email)) {
       return setMessage('Wrong email validation');
@@ -47,8 +54,8 @@ const EditForm: FC<_IEditForm> = ({
       return setMessage('Allowed characters a-z');
     }
 
-    type === 'edit' ? onEdit(id, email, name) : onAdd(email, name);
-    setContact({ email: '', name: '' });
+    type === 'edit' ? onEdit(id, email, name, phone) : onAdd(email, name);
+    setContact({ email: '', name: '', phone: '' });
   };
 
   return (
@@ -71,6 +78,17 @@ const EditForm: FC<_IEditForm> = ({
           name="name"
           id="name"
           value={_contact.name}
+          onChange={handleChange}
+          className="contact--editor__input"
+        />
+      </label>{' '}
+      <label htmlFor="phone" className="contact--editor__label">
+        Phone :
+        <input
+          type="phone"
+          name="phone"
+          id="phone"
+          value={_contact.phone}
           onChange={handleChange}
           className="contact--editor__input"
         />

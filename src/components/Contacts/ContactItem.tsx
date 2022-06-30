@@ -3,7 +3,7 @@ import { ContactType } from './ContactsType';
 import './ContactItem.scss';
 
 interface IContactTypeItem {
-  contact: ContactType | undefined;
+  contact: ContactType;
 }
 
 const ContactItem: FC<IContactTypeItem> = ({ contact }) => {

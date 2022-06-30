@@ -13,8 +13,8 @@ import {
 } from './usersActions';
 
 const userReducer = (
-  state = {},
-  { type, payload }: ISignUpUserSuccess | ILoginUserSuccess | IAuthUserSuccess
+  state = null,
+  { type, payload }: ISignUpUserSuccess | ILoginUserSuccess | IAuthUserSuccess,
 ) => {
   switch (type) {
     case USER_TYPES.SIGN_UP_USER_SUCCESS:
@@ -27,7 +27,7 @@ const userReducer = (
 };
 const loadingReducer = (
   state = false,
-  { type }: signUpUserType | loginUserType | authUserType
+  { type }: signUpUserType | loginUserType | authUserType,
 ) => {
   switch (type) {
     case USER_TYPES.SIGN_UP_USER_START:
@@ -53,7 +53,7 @@ const authReducer = (state: boolean = false, { type }: IAuthUserSuccess) => {
 
 const errorReducer = (
   state: any = null,
-  { type, payload }: ISignUpUserError | ILoginUserError | IAuthUserError
+  { type, payload }: ISignUpUserError | ILoginUserError | IAuthUserError,
 ) => {
   switch (type) {
     case USER_TYPES.SIGN_UP_USER_ERROR:

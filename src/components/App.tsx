@@ -7,6 +7,7 @@ import { useTypedSelector } from '../hooks/useTypedSelectors';
 import { useDispatchAcions } from '../hooks/useDispatchActions';
 import Contacts from './Contacts/Contacts';
 import ContactPage from '../pages/ContactPage/ContactPage';
+import HomePage from '../pages/HomePage/HomePage';
 
 const App: FC = () => {
   const { isAuthenticated } = useTypedSelector(s => s.user);
@@ -18,9 +19,9 @@ const App: FC = () => {
 
   return (
     <>
-      <Nav />
+      <Nav isAuthenticated={isAuthenticated} />{' '}
       <Routes>
-        <Route path="/" element={<div>Some Home Page</div>} />{' '}
+        <Route path="/" element={<HomePage />} />{' '}
         <Route path="/login" element={<LoginPage />} />{' '}
         <Route path="/signup" element={<SignUpPage />} />{' '}
         <Route path="/contacts" element={<Contacts />} />{' '}

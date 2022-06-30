@@ -44,8 +44,8 @@ export const login =
       d({ type: USER_TYPES.LOGIN_USER_START });
 
       const { data } = await axios.post('/users/login', { email, password });
-      sessionStorage.setItem('token', data?.refreshToken);
-      token.set(data?.refreshToken);
+      sessionStorage.setItem('token', data.refreshToken);
+      token.set(data.refreshToken);
       d({
         type: USER_TYPES.LOGIN_USER_SUCCESS,
         payload: { user: data?.user },
@@ -73,7 +73,7 @@ export const auth = () => async (d: Dispatch<authUserType>) => {
 
 export const logOut = () => async () => {
   try {
-    await axios.post('/users/logout');
+    await axios.get('/users/logout');
     token.unset();
     sessionStorage.removeItem('token');
   } catch (e) {}
