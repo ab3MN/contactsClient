@@ -7,6 +7,7 @@ interface INav {
 }
 export const Nav: FC<INav> = ({ isAuthenticated }) => {
   const { logOut } = useDispatchAcions();
+
   return (
     <nav className="nav">
       <>
@@ -20,9 +21,14 @@ export const Nav: FC<INav> = ({ isAuthenticated }) => {
         {isAuthenticated && (
           <>
             <NavLink to="/contacts">Contacts</NavLink>{' '}
-            <button type="button" onClick={() => logOut()}>
-              LogOut
-            </button>
+            <NavLink to="/books">Books</NavLink>{' '}
+            <NavLink to="/tasks">Tasks</NavLink>{' '}
+            <NavLink to="/datebooks">DateBook</NavLink>{' '}
+            <div>
+              <button type="button" onClick={() => logOut()}>
+                LogOut
+              </button>
+            </div>
           </>
         )}
       </>{' '}

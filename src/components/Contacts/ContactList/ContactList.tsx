@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { ContactType } from './ContactsType';
+import { ContactType } from '../ContactsType';
 import { Link } from 'react-router-dom';
 import './ContactList.scss';
 

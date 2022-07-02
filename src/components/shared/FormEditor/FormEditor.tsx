@@ -2,32 +2,28 @@ import React, { FC } from 'react';
 import { validateEmail } from '../../../helpers/validateEmail';
 import { validateName } from '../../../helpers/nameValidate';
 import './FormEditor.scss';
+import { ContactType } from '../../Contacts/ContactsType';
+import ErrorMessanger from '../ErrorMessanger/ErrorMessanger';
 
 interface IEditForm {
-  email: string | undefined;
-  name: string | undefined;
-  phone: string | undefined;
+  email: string;
+  name: string;
+  phone: string;
 }
+
 interface _IEditForm extends IEditForm {
-  onEdit: (
-    email: string | undefined,
-    name: string | undefined,
-    phone: string | undefined,
+  onEdit: (id: string, contact: ContactType) => Promise<any>;
+  onAdd: (email: string, name: string) => Promise<any>;
 
-    id: string | undefined,
-  ) => Promise<any>;
-  onAdd: (email: string | undefined, name: string | undefined) => Promise<any>;
-
-  id: string | undefined;
+  id: string;
+  contact: ContactType;
   type: string;
 
   onClose: () => void;
 }
 
 const EditForm: FC<_IEditForm> = ({
-  email,
-  name,
-  phone,
+  contact,
   onEdit,
   id,
   onClose,
@@ -35,26 +31,28 @@ const EditForm: FC<_IEditForm> = ({
   onAdd,
 }) => {
   const [_contact, setContact] = React.useState<IEditForm>({
-    email: email || '',
-    name: name || '',
-    phone: phone || '',
+    email: contact.email || '',
+    name: contact.name || '',
+    phone: contact.phone || '',
   });
   const [message, setMessage] = React.useState<string>('');
 
+  /*==================== SUBMIT ====================*/
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setContact({ ..._contact, [e.target.name]: e.target.value });
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const { email, name, phone } = _contact;
 
-    if (!validateEmail(email)) {
+    if (!validateEmail(_contact.email)) {
       return setMessage('Wrong email validation');
-    } else if (!validateName(name)) {
+    } else if (!validateName(_contact.name)) {
       return setMessage('Allowed characters a-z');
     }
 
-    type === 'edit' ? onEdit(id, email, name, phone) : onAdd(email, name);
+    type === 'edit'
+      ? onEdit(id, contact)
+      : onAdd(_contact.email, _contact.name);
     setContact({ email: '', name: '', phone: '' });
   };
 

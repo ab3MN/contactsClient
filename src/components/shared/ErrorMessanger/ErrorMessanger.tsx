@@ -9,11 +9,11 @@ const ErrorMessanger: FC<Error> = ({ message }) => {
     <>
       {setTimeout(
         () => (
-          <div className='error--messanger'>
-            <h5 className='error--messanger__text'>{message}</h5>
+          <div className="error--messanger">
+            <h5 className="error--messanger__text">{message}</h5>
           </div>
         ),
-        2000
+        2000,
       )}
     </>
   );

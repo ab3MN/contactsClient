@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useEffect } from 'react';
-import ContactList from './ContactList';
+import ContactList from './ContactList/ContactList';
 import { MyLoader } from '../shared/Loader/MyLoader';
 import { ContactType } from './ContactsType';
 import Modal from '../shared/Modal/Modal';
@@ -46,11 +46,10 @@ const Contacts = () => {
   };
   const editContact = async (
     id: string | undefined,
-    email: string | undefined,
-    name: string | undefined,
-    phone: string | undefined,
+    contact: ContactType,
   ): Promise<any> => {
     try {
+      const { name, email, phone } = contact;
       await axios.put<string>('/contacts/' + id, { name, email, phone });
 
       setContacts(contacts =>
@@ -66,10 +65,7 @@ const Contacts = () => {
       setError(error);
     }
   };
-  const addContact = async (
-    email: string | undefined,
-    name: string | undefined,
-  ): Promise<any> => {
+  const addContact = async (email: string, name: string): Promise<any> => {
     try {
       const res = await axios.post<ContactType>('/contacts', {
         name,
@@ -94,19 +90,22 @@ const Contacts = () => {
   };
 
   return (
-    <>
+    <section>
       {isModalOpen && (
         <Modal onClose={closeModal}>
-          <FormEditor
-            type={type}
-            onEdit={editContact}
-            email={contact?.email}
-            name={contact?.name}
-            phone={contact?.phone}
-            id={contact?._id}
-            onClose={closeModal}
-            onAdd={addContact}
-          />
+          {contact && (
+            <FormEditor
+              type={type}
+              contact={contact}
+              onEdit={editContact}
+              email={contact.email}
+              name={contact.name}
+              phone={contact.phone}
+              id={contact._id}
+              onClose={closeModal}
+              onAdd={addContact}
+            />
+          )}
         </Modal>
       )}
       {isLoading ? (
@@ -128,7 +127,7 @@ const Contacts = () => {
       >
         Add Contact
       </button>
-    </>
+    </section>
   );
 };
 

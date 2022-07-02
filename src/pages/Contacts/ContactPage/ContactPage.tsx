@@ -2,8 +2,8 @@ import React from 'react';
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-import { ContactType } from '../../components/Contacts/ContactsType';
-import ContactItem from '../../components/Contacts/ContactItem';
+import { ContactType } from '../../../components/Contacts/ContactsType';
+import ContactItem from '../../../components/Contacts/ContactItem/ContactItem';
 
 const ContactPage = () => {
   const navigate = useNavigate();
