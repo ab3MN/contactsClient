@@ -3,7 +3,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import ContactList from './ContactList/ContactList';
 import { MyLoader } from '../shared/Loader/MyLoader';
-import { ContactType } from './ContactsType';
+import { ContactType, IContactToEditForm } from './ContactsType';
 import Modal from '../shared/Modal/Modal';
 import FormEditor from '../shared/FormEditor/FormEditor';
 
@@ -45,8 +45,8 @@ const Contacts = () => {
     }
   };
   const editContact = async (
-    id: string | undefined,
-    contact: ContactType,
+    id: string,
+    contact: IContactToEditForm,
   ): Promise<any> => {
     try {
       const { name, email, phone } = contact;
@@ -93,21 +93,27 @@ const Contacts = () => {
     <section>
       {isModalOpen && (
         <Modal onClose={closeModal}>
-          {contact && (
+          {contact ? (
             <FormEditor
               type={type}
               contact={contact}
               onEdit={editContact}
-              email={contact.email}
-              name={contact.name}
-              phone={contact.phone}
               id={contact._id}
+              onClose={closeModal}
+              onAdd={addContact}
+            />
+          ) : (
+            <FormEditor
+              id={''}
+              type={type}
+              onEdit={editContact}
               onClose={closeModal}
               onAdd={addContact}
             />
           )}
         </Modal>
       )}
+
       {isLoading ? (
         <MyLoader />
       ) : (

@@ -42,9 +42,13 @@ const loadingReducer = (
       return state;
   }
 };
-const authReducer = (state: boolean = false, { type }: IAuthUserSuccess) => {
+const authReducer = (
+  state: boolean = false,
+  { type }: IAuthUserSuccess | ILoginUserSuccess,
+) => {
   switch (type) {
     case USER_TYPES.AUTH_USER_SUCCESS:
+    case USER_TYPES.LOGIN_USER_SUCCESS:
       return true || state;
     default:
       return state;

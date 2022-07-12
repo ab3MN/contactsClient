@@ -7,3 +7,9 @@ export type ContactType = {
   largeAvatarURL: string;
   phone: string;
 };
+
+export interface IContactToEditForm {
+  email: string;
+  name: string;
+  phone: string;
+}

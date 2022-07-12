@@ -4,9 +4,17 @@ import './ContactItem.scss';
 
 interface IContactTypeItem {
   contact: ContactType;
+  uploadImg: (file: any) => void;
 }
 
-const ContactItem: FC<IContactTypeItem> = ({ contact }) => {
+const ContactItem: FC<IContactTypeItem> = ({ contact, uploadImg }) => {
+  const [selectedImage, setSelectedImage] = React.useState<any>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    e.target.files && setSelectedImage(e.target.files[0]);
+
+  const handleUpload = (): void => selectedImage && uploadImg(selectedImage);
+
   return (
     <section className="contact--item">
       <div>
@@ -20,8 +28,12 @@ const ContactItem: FC<IContactTypeItem> = ({ contact }) => {
             name="image_uploads"
             accept=".jpg, .jpeg, .png"
             multiple
+            onChange={handleChange}
           />
         </label>
+        <button type="button" onClick={handleUpload}>
+          upload
+        </button>
       </div>
       <div>
         <h4>{contact?.name}</h4>

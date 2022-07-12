@@ -16,14 +16,24 @@ const ContactPage = () => {
       setContact(res.data);
     });
   }, [id]);
-  console.log(contact);
 
   const handleGoBack = (): void => {
     navigate('/contacts');
   };
+
+  const uploadImg = (file: any) => {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    file &&
+      axios
+        .patch<ContactType>('/contacts/' + id + '/avatar', formData, {})
+        .then(res => setContact(res.data))
+        .catch(e => console.log(e));
+  };
+
   return (
     <>
-      {contact && <ContactItem contact={contact} />}
+      {contact && <ContactItem contact={contact} uploadImg={uploadImg} />}
       <button onClick={handleGoBack}>Back</button>
     </>
   );
