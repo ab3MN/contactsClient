@@ -8,13 +8,11 @@ import Modal from '../shared/Modal/Modal';
 import FormEditor from '../shared/FormEditor/FormEditor';
 
 const Contacts = () => {
-  const [contacts, setContacts] = React.useState<ContactType[]>([]);
   const [isLoading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string>('');
-  const [isModalOpen, setModalOpen] = React.useState<boolean>(false);
-  const [contact, setContact] = React.useState<ContactType>();
-  const [type, setType] = React.useState<string>('');
 
+  /* ==================== GET   ==================== */
+  const [contacts, setContacts] = React.useState<ContactType[]>([]);
   useEffect(() => {
     axios
       .get<ContactType[]>('/contacts')
@@ -32,6 +30,7 @@ const Contacts = () => {
       });
   }, []);
 
+  /* ==================== DELETE  ==================== */
   const deleteContact = (id: string): void => {
     try {
       axios.delete<string>('/contacts/' + id);
@@ -44,6 +43,10 @@ const Contacts = () => {
       setError(error);
     }
   };
+  /* ==================== EDIT  ==================== */
+  const [contact, setContact] = React.useState<ContactType>();
+  const [type, setType] = React.useState<string>('');
+
   const editContact = async (
     id: string,
     contact: IContactToEditForm,
@@ -65,6 +68,7 @@ const Contacts = () => {
       setError(error);
     }
   };
+  /* ==================== ADD  ==================== */
   const addContact = async (email: string, name: string): Promise<any> => {
     try {
       const res = await axios.post<ContactType>('/contacts', {
@@ -81,6 +85,8 @@ const Contacts = () => {
     }
   };
 
+  /* ==================== MODAL   ==================== */
+  const [isModalOpen, setModalOpen] = React.useState<boolean>(false);
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
@@ -94,6 +100,7 @@ const Contacts = () => {
       {isModalOpen && (
         <Modal onClose={closeModal}>
           {contact ? (
+            /* ==================== EDIT ==================== */
             <FormEditor
               type={type}
               contact={contact}
@@ -103,6 +110,7 @@ const Contacts = () => {
               onAdd={addContact}
             />
           ) : (
+            /* ==================== ADD ==================== */
             <FormEditor
               id={''}
               type={type}
@@ -113,7 +121,7 @@ const Contacts = () => {
           )}
         </Modal>
       )}
-
+      {/* ==================== CONTACT LIST ==================== */}
       {isLoading ? (
         <MyLoader />
       ) : (
