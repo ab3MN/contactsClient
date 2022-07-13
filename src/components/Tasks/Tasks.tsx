@@ -10,13 +10,18 @@ import { getFormatDate } from '../../helpers/getCurrentDay';
 const Tasks = () => {
   /* ==================== FETCH TASKS  ==================== */
   const [tasks, setTasks] = React.useState<ITask[]>([]);
+  const [isLoading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    axios
-      .get('/tasks')
-      .then(res => setTasks(res.data))
-      .catch(e => console.log(e));
-  }, []);
+    isLoading &&
+      axios
+        .get('/tasks')
+        .then(res => {
+          setTasks(res.data);
+        })
+        .catch(e => console.log(e))
+        .finally(() => setLoading(false));
+  }, [isLoading]);
   /* ==================== TASK  ==================== */
   const [task, setTask] = React.useState<ITaskForm>({ title: '', text: '' });
 
@@ -34,51 +39,103 @@ const Tasks = () => {
   const [isOpenFinishDate, setIsOpenFinishDate] = React.useState(false);
 
   /* ==================== SUBMIT ==================== */
-  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const start = getFormatDate(startDate.toISOString());
     const finish = getFormatDate(finishDate.toISOString());
 
-    axios
-      .post<ITask>('/tasks', {
+    if (!task.title && !task.text) {
+      return;
+    }
+    try {
+      const res = await axios.post<ITask>('/tasks', {
         ...task,
         start,
         finish,
         isCompleted: false,
-      })
-      .then(res => setTask(res.data))
-      .catch(e => console.log(e));
+      });
+
+      setTasks(tasks => [...tasks, res.data]);
+    } catch (e) {
+      console.log(e);
+    }
 
     setTask({ title: '', text: '' });
   };
+
+  /* ==================== Delete ==================== */
+  const handleDelete = async (_id: string) => {
+    console.log('aaa');
+    try {
+      await axios.delete('/tasks/' + _id);
+      setTasks(tasks => tasks.filter(el => el._id !== _id));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const _handleDelete = React.useCallback(handleDelete, []);
+
+  /* ==================== PATCH IsCompleted ==================== */
+  const handleComplete = async (_id: string, isCompleted: boolean) => {
+    try {
+      await axios.patch('/tasks/' + _id + '/iscompleted', {
+        isCompleted: !isCompleted,
+      });
+      setLoading(true);
+
+      setTasks(tasks =>
+        tasks.map(el =>
+          el._id === _id
+            ? Object.assign({}, el, { isCompleted: !isCompleted })
+            : el,
+        ),
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const _handleComplete = React.useCallback(handleComplete, []);
+
+  /* ==================== CHANGE FINISH DATE ==================== */
+  const handleChangeFinishDate = (date: string) => {
+    console.log('aaaaaa');
+    console.log(date);
+  };
+  const _handleChangeFinishDate = React.useCallback(
+    () => handleChangeFinishDate,
+    [],
+  );
 
   return (
     <section>
       {/* ==================== FORM ==================== */}
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">
-          Email :
+          Title :
           <input
             name="title"
             id="title"
             value={task.title}
             onChange={handleChange}
+            placeholder="Enter title"
           />
         </label>{' '}
         <label htmlFor="text">
-          Name :
+          Text :
           <textarea
             name="text"
             id="text"
             value={task.text}
             onChange={handleChange}
+            placeholder="Enter Text"
           />
         </label>{' '}
         {/* ==================== START FINISH DATE ==================== */}
         <button
           type="button"
-          onClick={() => setIsOpenFinishDate(!isOpenStartDate)}
+          onClick={() => setIsOpenStartDate(!isOpenStartDate)}
           data-set="start"
         >
           Select a start date
@@ -87,7 +144,7 @@ const Tasks = () => {
           <DatePicker
             onChange={e => {
               e && setStartDate(e);
-              setIsOpenStartDate(!isOpenFinishDate);
+              setIsOpenStartDate(!isOpenStartDate);
             }}
             calendarClassName="rasta-stripes"
             peekNextMonth
@@ -122,7 +179,13 @@ const Tasks = () => {
         <button type="submit">Add Task</button>
       </form>{' '}
       {/* ==================== TASK LIST ==================== */}
-      {tasks.length >= 1 && <TasksList tasks={tasks} />}
+      {tasks.length >= 1 && (
+        <TasksList
+          tasks={tasks}
+          onDelete={_handleDelete}
+          onComplete={_handleComplete}
+        />
+      )}
     </section>
   );
 };

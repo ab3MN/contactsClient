@@ -26,8 +26,8 @@ const Contacts = () => {
             ? 'Resource Not found'
             : 'An unexpected error has occurred';
         setError(error);
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   /* ==================== DELETE  ==================== */
