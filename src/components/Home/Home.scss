@@ -1,0 +1,11 @@
+.home {
+  margin: 0 auto;
+  max-width: 1200px;
+  color: rgb(240, 248, 255);
+  &__quote--text {
+    text-align: center;
+  }
+  &__quote--from {
+    text-align: center;
+  }
+}

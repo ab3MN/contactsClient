@@ -2,33 +2,81 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatchAcions } from '../../hooks/useDispatchActions';
 import './Nav.scss';
+import Button from '../shared/Button/Button';
+
 interface INav {
   isAuthenticated: boolean;
 }
+
 export const Nav: FC<INav> = ({ isAuthenticated }) => {
   const { logOut } = useDispatchAcions();
 
   return (
     <nav className="nav">
       <>
-        <NavLink to="/">Home</NavLink>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? 'nav__link active' : 'nav__link unactive'
+          }
+        >
+          Home
+        </NavLink>
         {!isAuthenticated && (
           <>
-            <NavLink to="/login">Login</NavLink>
-            <NavLink to="/signup">Sign Up</NavLink>
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? 'nav__link active' : 'nav__link unactive'
+              }
+            >
+              Logins
+            </NavLink>
+            <NavLink
+              to="/signup"
+              className={({ isActive }) =>
+                isActive ? 'nav__link active' : 'nav__link unactive'
+              }
+            >
+              Sign Up
+            </NavLink>
           </>
         )}
         {isAuthenticated && (
           <>
-            <NavLink to="/contacts">Contacts</NavLink>{' '}
-            <NavLink to="/books">Books</NavLink>{' '}
-            <NavLink to="/tasks">Tasks</NavLink>{' '}
-            <NavLink to="/datebooks">DateBook</NavLink>{' '}
-            <div>
-              <button type="button" onClick={() => logOut()}>
-                LogOut
-              </button>
-            </div>
+            <NavLink
+              to="/contacts"
+              className={({ isActive }) =>
+                isActive ? 'nav__link active' : 'nav__link unactive'
+              }
+            >
+              Contacts
+            </NavLink>{' '}
+            <NavLink
+              to="/books"
+              className={({ isActive }) =>
+                isActive ? 'nav__link active' : 'nav__link unactive'
+              }
+            >
+              Books
+            </NavLink>{' '}
+            <NavLink
+              to="/tasks"
+              className={({ isActive }) =>
+                isActive ? 'nav__link active' : 'nav__link unactive'
+              }
+            >
+              Tasks
+            </NavLink>{' '}
+            <NavLink
+              to="/datebooks"
+              className={({ isActive }) =>
+                isActive ? 'nav__link active' : 'nav__link unactive'
+              }
+            >
+              DateBook
+            </NavLink>{' '}
+            <Button type="button" cb={logOut} text="LogOut" />
           </>
         )}
       </>{' '}

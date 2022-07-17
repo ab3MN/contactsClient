@@ -4,10 +4,12 @@
 
   &__link {
     display: flex;
-    color: rgb(22, 134, 185);
+    color: rgb(240, 248, 255);
+    text-decoration: none;
+    align-items: center;
   }
   &__link:hover {
-    color: pink;
+    color: rgb(3, 233, 244);
   }
   &__item {
     display: flex;

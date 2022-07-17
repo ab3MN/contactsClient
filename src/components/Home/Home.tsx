@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { getCurrentDay } from '../../helpers/getCurrentDay';
+import './Home.scss';
 
 interface IQuote {
   text: String;
@@ -12,18 +12,19 @@ const Home = () => {
   const [quote, setQuote] = React.useState<IQuote>();
 
   React.useEffect(() => {
-    axios
-      .get('/quote')
-      .then(res => setQuote(res.data))
-      .catch(e => console.log(e));
-  });
+    !quote &&
+      axios
+        .get('/quote')
+        .then(res => setQuote(res.data))
+        .catch(e => console.log(e));
+  }, [quote]);
 
   return (
-    <section>
+    <section className="home">
       {quote && (
         <>
-          <h4>{quote.text}</h4>
-          <h5>{quote.from}</h5>
+          <h4 className="home__quote--text">{quote.text}</h4>
+          <h5 className="home__quote--from">{quote.from}</h5>
         </>
       )}
     </section>

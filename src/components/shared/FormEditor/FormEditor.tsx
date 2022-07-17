@@ -4,6 +4,7 @@ import { validateName } from '../../../helpers/nameValidate';
 import './FormEditor.scss';
 import { ContactType, IContactToEditForm } from '../../Contacts/ContactsType';
 import ErrorMessanger from '../ErrorMessanger/ErrorMessanger';
+import Button from '../Button/Button';
 
 interface _IEditForm {
   onEdit: (id: string, contact: IContactToEditForm) => Promise<any>;
@@ -52,51 +53,40 @@ const EditForm: FC<_IEditForm> = ({
   };
 
   return (
-    <section>
+    <section className="form__editor--box">
       <form onSubmit={handleSubmit} className="contact--editor">
-        <label htmlFor="email" className="contact--editor__label">
-          Email :
+        <div className="contact--editor__box">
           <input
             type="email"
             name="email"
             id="email"
             value={_contact.email}
             onChange={handleChange}
-            className="contact--editor__input"
           />
-        </label>{' '}
-        <label htmlFor="name" className="contact--editor__label">
-          Name :
+          <label htmlFor="email">Email</label>{' '}
+        </div>
+        <div className="contact--editor__box">
           <input
             type="name"
             name="name"
             id="name"
             value={_contact.name}
             onChange={handleChange}
-            className="contact--editor__input"
           />
-        </label>{' '}
-        <label htmlFor="phone" className="contact--editor__label">
-          Phone :
+          <label htmlFor="name">Name</label>{' '}
+        </div>
+        <div className="contact--editor__box">
           <input
             type="phone"
             name="phone"
             id="phone"
             value={_contact.phone}
             onChange={handleChange}
-            className="contact--editor__input"
           />
-        </label>
-        <button type="submit" className="contact--editor__btn">
-          {type.capitalize()}{' '}
-        </button>{' '}
-        <button
-          type="submit"
-          className="contact--editor__btn"
-          onClick={onClose}
-        >
-          Close
-        </button>
+          <label htmlFor="phone">Phone</label>
+        </div>
+        <Button type="submit" text={type.capitalize()} height="30px" />{' '}
+        <Button type="submit" text="Close" cb={onClose} height="30px" />
       </form>
       {message && <h1>{message}</h1>}
     </section>

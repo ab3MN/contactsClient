@@ -37,33 +37,33 @@ export const RegisterForm = ({ type = 'login' }) => {
   return (
     <section>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='email'>
+        <label htmlFor="email">
           Email :
           <input
-            type='email'
-            name='email'
-            id='email'
+            type="email"
+            name="email"
+            id="email"
             value={user.email}
             onChange={handleChange}
           />
         </label>{' '}
-        <label htmlFor='password'>
+        <label htmlFor="password">
           Password :
           <input
-            type='password'
-            name='password'
-            id='password'
+            type="password"
+            name="password"
+            id="password"
             value={user.password}
             onChange={handleChange}
           />
         </label>{' '}
         {type === 'sign up' && (
-          <label htmlFor='_password'>
+          <label htmlFor="_password">
             Repeat password :
             <input
-              type='password'
-              name='_password'
-              id='_password'
+              type="password"
+              name="_password"
+              id="_password"
               value={user._password}
               onChange={handleChange}
             />
