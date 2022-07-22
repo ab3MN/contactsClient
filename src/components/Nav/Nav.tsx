@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatchAcions } from '../../hooks/useDispatchActions';
 import './Nav.scss';
-import Button from '../shared/Button/Button';
+import MyButton from '../shared/MyButton/MyButton';
 
 interface INav {
   isAuthenticated: boolean;
@@ -76,7 +76,7 @@ export const Nav: FC<INav> = ({ isAuthenticated }) => {
             >
               DateBook
             </NavLink>{' '}
-            <Button type="button" cb={logOut} text="LogOut" />
+            <MyButton type="button" cb={logOut} text="LogOut" />
           </>
         )}
       </>{' '}

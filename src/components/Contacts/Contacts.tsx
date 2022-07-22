@@ -1,11 +1,17 @@
 import axios from 'axios';
-import React from 'react';
+import React, { ReactHTML } from 'react';
 import { useEffect } from 'react';
 import ContactList from './ContactList/ContactList';
 import { MyLoader } from '../shared/Loader/MyLoader';
 import { ContactType, IContactToEditForm } from './ContactsType';
+
 import Modal from '../shared/Modal/Modal';
 import FormEditor from '../shared/FormEditor/FormEditor';
+import IconButton from '@mui/material/IconButton';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 
 const Contacts = () => {
   const [isLoading, setLoading] = React.useState<boolean>(true);
@@ -69,11 +75,16 @@ const Contacts = () => {
     }
   };
   /* ==================== ADD  ==================== */
-  const addContact = async (email: string, name: string): Promise<any> => {
+  const addContact = async (
+    email: string,
+    name: string,
+    phone?: string,
+  ): Promise<any> => {
     try {
       const res = await axios.post<ContactType>('/contacts', {
         name,
         email,
+        phone,
       });
       setContacts(contacts => [...contacts, res.data]);
     } catch (e: any) {
@@ -88,15 +99,93 @@ const Contacts = () => {
   /* ==================== MODAL   ==================== */
   const [isModalOpen, setModalOpen] = React.useState<boolean>(false);
   const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const closeModal = () => {
+    setModalOpen(false);
+    setContact({
+      _id: '',
+      email: '',
+      name: '',
+      favorite: false,
+      smallAvatarURL: '',
+      largeAvatarURL: '',
+      phone: '',
+    });
+  };
 
   const getContactInfo = (id: string) => {
     setContact(contacts.find(({ _id }) => _id === id));
     setType('edit');
   };
 
+  /* ==================== FILTER   ==================== */
+  const [contactFilter, setContactFilter] = React.useState<string>('');
+
+  const filtredContacts = contacts.filter(
+    el =>
+      el.email.toLowerCase().includes(contactFilter.toLowerCase()) ||
+      el.name.toLowerCase().includes(contactFilter.toLowerCase()),
+  );
+
+  const handleChangeFilter = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setContactFilter(e.target.value);
+
+  const _handleChangeFilter = React.useCallback(handleChangeFilter, []);
+
+  const [iconColor, setIconColor] = React.useState('white');
   return (
     <section>
+      <IconButton
+        onClick={() => {
+          openModal();
+          setType('add');
+        }}
+        sx={{
+          color: '#ffffff',
+          display: 'block',
+          '&:hover': {
+            color: 'rgb(3, 233, 244)',
+          },
+          top: -65,
+          m: '0 auto',
+        }}
+      >
+        <AddCircleOutlineIcon fontSize="large" />
+      </IconButton>
+
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          width: 700,
+          m: '10px auto',
+        }}
+      >
+        <SearchIcon sx={{ color: iconColor, mr: 1, mt: 2 }} fontSize="large" />
+        <TextField
+          id="input-find-contact"
+          label="Find Contact"
+          variant="standard"
+          value={contactFilter}
+          onChange={_handleChangeFilter}
+          onFocus={() => setIconColor('rgb(3, 233, 244)')}
+          onBlur={() => setIconColor('white')}
+          sx={{
+            input: {
+              color: 'white',
+              width: '700px',
+            },
+            label: {
+              color: 'white',
+            },
+            '& .MuiInput-underline:after': {
+              borderBottomColor: 'rgb(3, 233, 244)',
+            },
+            '& label.Mui-focused': {
+              color: 'rgb(3, 233, 244)',
+            },
+          }}
+        />
+      </Box>
       {isModalOpen && (
         <Modal onClose={closeModal}>
           {contact ? (
@@ -126,21 +215,12 @@ const Contacts = () => {
         <MyLoader />
       ) : (
         <ContactList
-          contacts={contacts}
+          contacts={filtredContacts}
           deleteContact={deleteContact}
           openModal={openModal}
           getContactInfo={getContactInfo}
         />
       )}
-      <button
-        type="button"
-        onClick={() => {
-          openModal();
-          setType('add');
-        }}
-      >
-        Add Contact
-      </button>
     </section>
   );
 };

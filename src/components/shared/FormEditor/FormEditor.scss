@@ -14,36 +14,12 @@
   margin: 0 auto;
 
   &__box {
-    position: relative;
-    & label {
-      position: abosolute;
-      top: 0;
-      left: 0;
-      padding: 10px 0;
-      color: rgb(240, 248, 255);
-      pointer-events: none;
-      transition: 0.5s;
-    }
-
-    & input {
+    & div {
       width: 100%;
-      padding: 10px 0;
-      color: rgb(240, 248, 255);
-      margin-bottom: 30px;
-      border: none;
-      border-bottom: 1px solid rgb(240, 248, 255);
-      outline: none;
-      background: transparent;
-    }
-
-    & input:focus ~ label,
-    input:valid ~ label {
-      top: -20px;
-      left: 0;
-      color: rgb(3, 233, 244);
-      font-size: 12px;
+      margin-bottom: 20px;
     }
   }
+
   &__box:first-child {
     margin-top: 30px;
   }

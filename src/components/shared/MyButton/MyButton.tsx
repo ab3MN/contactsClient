@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import './Button.scss';
+import './MyButton.scss';
 
 interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
@@ -8,15 +8,14 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   cb?: () => any;
 }
 
-const Button: FC<IButton> = ({
-  text,
-  width = '100%',
-  height = '100%',
-  type,
-  cb,
-}) => {
+const MyButton: FC<IButton> = ({ text, width = '', height = '', type, cb }) => {
   return (
-    <button onClick={() => cb && cb()} type={type} className="shared__button ">
+    <button
+      onClick={() => cb && cb()}
+      type={type}
+      className="shared__button"
+      style={{ width, height }}
+    >
       <span></span>
       <span></span>
       <span></span>
@@ -26,4 +25,4 @@ const Button: FC<IButton> = ({
   );
 };
 
-export default Button;
+export default MyButton;

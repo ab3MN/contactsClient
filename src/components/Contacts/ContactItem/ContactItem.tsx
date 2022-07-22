@@ -14,7 +14,6 @@ const ContactItem: FC<IContactTypeItem> = ({ contact, uploadImg }) => {
     e.target.files && setSelectedImage(e.target.files[0]);
 
   const handleUpload = (): void => selectedImage && uploadImg(selectedImage);
-
   return (
     <section className="contact--item">
       <div>

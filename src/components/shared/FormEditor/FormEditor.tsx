@@ -4,18 +4,34 @@ import { validateName } from '../../../helpers/nameValidate';
 import './FormEditor.scss';
 import { ContactType, IContactToEditForm } from '../../Contacts/ContactsType';
 import ErrorMessanger from '../ErrorMessanger/ErrorMessanger';
-import Button from '../Button/Button';
+import MyButton from '../MyButton/MyButton';
+
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 
 interface _IEditForm {
   onEdit: (id: string, contact: IContactToEditForm) => Promise<any>;
-  onAdd: (email: string, name: string) => Promise<any>;
-
+  onAdd: (email: string, name: string, phone: string) => Promise<any>;
   id: string;
   contact?: ContactType;
   type: string;
-
   onClose: () => void;
 }
+const textFieldStyle = {
+  input: {
+    color: 'white',
+    width: '100%',
+  },
+  label: {
+    color: 'white',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'rgb(3, 233, 244)',
+  },
+  '& label.Mui-focused': {
+    color: 'rgb(3, 233, 244)',
+  },
+};
 
 const EditForm: FC<_IEditForm> = ({
   contact,
@@ -31,10 +47,10 @@ const EditForm: FC<_IEditForm> = ({
     phone: contact?.phone || '',
   });
   const [message, setMessage] = React.useState<string>('');
-  // type === 'add' && setContact({ email: '', name: '', phone: '' });
 
   /*==================== SUBMIT ====================*/
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
+
+  const handleChange = (e: React.ChangeEvent<HTMLFormElement>): void =>
     setContact({ ..._contact, [e.target.name]: e.target.value });
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>): void => {
@@ -47,46 +63,51 @@ const EditForm: FC<_IEditForm> = ({
 
     type === 'edit'
       ? onEdit(id, _contact)
-      : onAdd(_contact.email, _contact.name);
+      : onAdd(_contact.email, _contact.name, _contact.phone);
     onClose();
-    setContact({ email: '', name: '', phone: '' });
   };
 
   return (
     <section className="form__editor--box">
-      <form onSubmit={handleSubmit} className="contact--editor">
-        <div className="contact--editor__box">
-          <input
-            type="email"
+      <form
+        onSubmit={handleSubmit}
+        className="contact--editor"
+        onChange={handleChange}
+      >
+        <Box className="contact--editor__box">
+          {' '}
+          <TextField
+            id="standard-basic"
+            label="Email"
             name="email"
-            id="email"
+            variant="standard"
             value={_contact.email}
-            onChange={handleChange}
-          />
-          <label htmlFor="email">Email</label>{' '}
-        </div>
-        <div className="contact--editor__box">
-          <input
-            type="name"
+            sx={textFieldStyle}
+          />{' '}
+        </Box>{' '}
+        <Box className="contact--editor__box">
+          {' '}
+          <TextField
+            id="standard-basic"
+            label="Name"
             name="name"
-            id="name"
+            variant="standard"
             value={_contact.name}
-            onChange={handleChange}
-          />
-          <label htmlFor="name">Name</label>{' '}
-        </div>
-        <div className="contact--editor__box">
-          <input
-            type="phone"
+            sx={textFieldStyle}
+          />{' '}
+        </Box>{' '}
+        <Box className="contact--editor__box">
+          <TextField
+            id="standard-basic"
+            label="Phone"
             name="phone"
-            id="phone"
+            variant="standard"
             value={_contact.phone}
-            onChange={handleChange}
-          />
-          <label htmlFor="phone">Phone</label>
-        </div>
-        <Button type="submit" text={type.capitalize()} height="30px" />{' '}
-        <Button type="submit" text="Close" cb={onClose} height="30px" />
+            sx={textFieldStyle}
+          />{' '}
+        </Box>{' '}
+        <MyButton type="submit" text={type.capitalize()} height="50px" />{' '}
+        <MyButton type="submit" text="Close" cb={onClose} height="50px" />
       </form>
       {message && <h1>{message}</h1>}
     </section>

@@ -1,5 +1,6 @@
 .contacts--list {
-  width: 1200px;
+  display: block;
+  max-width: 900px;
   margin: 0 auto;
 
   &__link {
@@ -14,6 +15,7 @@
   &__item {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding-bottom: 30px;
   }
 

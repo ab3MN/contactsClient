@@ -67,7 +67,6 @@ const Tasks = () => {
 
   /* ==================== Delete ==================== */
   const handleDelete = async (_id: string) => {
-    console.log('aaa');
     try {
       await axios.delete('/tasks/' + _id);
       setTasks(tasks => tasks.filter(el => el._id !== _id));
