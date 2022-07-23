@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatchAcions } from '../../hooks/useDispatchActions';
 import './Nav.scss';
-import MyButton from '../shared/MyButton/MyButton';
+import MyButton from '../shared/Buttons/MyButton/MyButton';
 
 interface INav {
   isAuthenticated: boolean;

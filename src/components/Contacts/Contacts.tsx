@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { ReactHTML } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import ContactList from './ContactList/ContactList';
 import { MyLoader } from '../shared/Loader/MyLoader';
@@ -7,11 +7,10 @@ import { ContactType, IContactToEditForm } from './ContactsType';
 
 import Modal from '../shared/Modal/Modal';
 import FormEditor from '../shared/FormEditor/FormEditor';
-import IconButton from '@mui/material/IconButton';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import AddButton from '../shared/Buttons/AddButton/AddButton';
 
 const Contacts = () => {
   const [isLoading, setLoading] = React.useState<boolean>(true);
@@ -99,6 +98,8 @@ const Contacts = () => {
   /* ==================== MODAL   ==================== */
   const [isModalOpen, setModalOpen] = React.useState<boolean>(false);
   const openModal = () => setModalOpen(true);
+  const _openModal = React.useCallback(openModal, []);
+
   const closeModal = () => {
     setModalOpen(false);
     setContact({
@@ -120,10 +121,14 @@ const Contacts = () => {
   /* ==================== FILTER   ==================== */
   const [contactFilter, setContactFilter] = React.useState<string>('');
 
-  const filtredContacts = contacts.filter(
-    el =>
-      el.email.toLowerCase().includes(contactFilter.toLowerCase()) ||
-      el.name.toLowerCase().includes(contactFilter.toLowerCase()),
+  const filtredContacts = React.useMemo(
+    () =>
+      contacts.filter(
+        el =>
+          el.email.toLowerCase().includes(contactFilter.toLowerCase()) ||
+          el.name.toLowerCase().includes(contactFilter.toLowerCase()),
+      ),
+    [contacts, contactFilter],
   );
 
   const handleChangeFilter = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -132,26 +137,18 @@ const Contacts = () => {
   const _handleChangeFilter = React.useCallback(handleChangeFilter, []);
 
   const [iconColor, setIconColor] = React.useState('white');
+
   return (
     <section>
-      <IconButton
-        onClick={() => {
-          openModal();
-          setType('add');
-        }}
-        sx={{
-          color: '#ffffff',
-          display: 'block',
-          '&:hover': {
-            color: 'rgb(3, 233, 244)',
-          },
+      <AddButton
+        openModal={_openModal}
+        changeType={setType}
+        type="add"
+        style={{
           top: -65,
           m: '0 auto',
         }}
-      >
-        <AddCircleOutlineIcon fontSize="large" />
-      </IconButton>
-
+      />
       <Box
         sx={{
           display: 'flex',
@@ -210,6 +207,7 @@ const Contacts = () => {
           )}
         </Modal>
       )}
+
       {/* ==================== CONTACT LIST ==================== */}
       {isLoading ? (
         <MyLoader />
@@ -217,7 +215,7 @@ const Contacts = () => {
         <ContactList
           contacts={filtredContacts}
           deleteContact={deleteContact}
-          openModal={openModal}
+          openModal={_openModal}
           getContactInfo={getContactInfo}
         />
       )}

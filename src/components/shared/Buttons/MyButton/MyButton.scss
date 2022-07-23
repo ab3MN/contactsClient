@@ -2,7 +2,7 @@
   position: relative;
   display: inline-block;
   padding: 10px 20px;
-  color: rgb(240, 248, 255);
+  color: var(--text-color);
   overflow: hidden;
   transition: 0.5s;
   letter-spacing: 4px;
@@ -12,11 +12,11 @@
   margin: 10px 0;
 
   &:hover {
-    color: rgb(240, 248, 255);
-    background: rgb(3, 233, 244);
+    color: var(--text-color);
+    background: var(--hover-color);
     border-radius: 5px;
-    box-shadow: 0 0 5px rgb(3, 233, 244), 0 0 25px rgb(3, 233, 244),
-      0 0 50px rgb(3, 233, 244), 0 0 100px rgb(3, 233, 244);
+    box-shadow: 0 0 5px var(--hover-color), 0 0 25px var(--hover-color),
+      0 0 50px var(--hover-color), 0 0 100px var(--hover-color);
   }
   & span {
     position: absolute;
@@ -27,7 +27,7 @@
     left: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgb(3, 233, 244));
+    background: linear-gradient(90deg, transparent, var(--hover-color));
     animation: btn_anim1 1s linear infinite;
   }
   @keyframes btn_anim1 {
@@ -44,7 +44,7 @@
     right: 0;
     width: 2px;
     height: 40px;
-    background: linear-gradient(180deg, transparent, rgb(3, 233, 244));
+    background: linear-gradient(180deg, transparent, var(--hover-color));
     animation: btn_anim2 1s linear infinite;
     animation-delay: 0.25s;
   }
@@ -63,7 +63,7 @@
     right: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(270deg, transparent, rgb(3, 233, 244));
+    background: linear-gradient(270deg, transparent, var(--hover-color));
     animation: btn_anim3 1s linear infinite;
     animation-delay: 0.5s;
   }
@@ -81,7 +81,7 @@
     left: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(360deg, transparent, rgb(3, 233, 244));
+    background: linear-gradient(360deg, transparent, var(--hover-color));
     animation: btn_anim4 1s linear infinite;
     animation-delay: 0.75s;
   }

@@ -1,4 +1,3 @@
-@import 'var';
 body {
   background-color: #b7dce9;
   margin: 0;
@@ -14,4 +13,14 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* ==================== COLORS ==================== */
+:root {
+  --text-color: rgb(240, 248, 255);
+  --hover-color: rgb(3, 233, 244);
+  --bgc-color: rgb(0, 0, 0, 0.5);
+}
+li {
+  list-style: none;
 }

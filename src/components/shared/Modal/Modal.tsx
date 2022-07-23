@@ -2,11 +2,12 @@ import React, { FC } from 'react';
 import './Modal.scss';
 
 interface IModalProps {
-  children: React.ReactNode;
-  onClose: () => void;
+  children: React.ReactNode | any;
+  onClose: () => void | any;
+  style?: any;
 }
 
-const Modal: FC<IModalProps> = ({ children, onClose }) => {
+const Modal: FC<IModalProps> = ({ children, onClose, style = {} }) => {
   const backdropRef: React.RefObject<HTMLInputElement> = React.useRef(null);
 
   React.useEffect(() => {
@@ -27,10 +28,13 @@ const Modal: FC<IModalProps> = ({ children, onClose }) => {
 
   return (
     <div
-      className='modal__backrop'
+      className="modal__backrop"
       onClick={handleBackdropClick}
-      ref={backdropRef}>
-      <div className='modal'>{children}</div>
+      ref={backdropRef}
+    >
+      <div className="modal" style={style}>
+        {children}
+      </div>
     </div>
   );
 };

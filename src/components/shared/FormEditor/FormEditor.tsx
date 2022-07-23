@@ -4,7 +4,7 @@ import { validateName } from '../../../helpers/nameValidate';
 import './FormEditor.scss';
 import { ContactType, IContactToEditForm } from '../../Contacts/ContactsType';
 import ErrorMessanger from '../ErrorMessanger/ErrorMessanger';
-import MyButton from '../MyButton/MyButton';
+import MyButton from '../Buttons/MyButton/MyButton';
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -75,7 +75,6 @@ const EditForm: FC<_IEditForm> = ({
         onChange={handleChange}
       >
         <Box className="contact--editor__box">
-          {' '}
           <TextField
             id="standard-basic"
             label="Email"

@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { ITask } from '../TaskType';
 import './TaskList.scss';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import Checkbox from '@mui/material/Checkbox';
-import { pink } from '@mui/material/colors';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
+import IconButton from '@mui/material/IconButton';
+import DeleteButton from '../../shared/Buttons/DeleteButton/DeleteButton';
 const throttle = require('lodash.throttle');
 
 interface TaskList {
@@ -18,34 +19,36 @@ const TasksList: FC<TaskList> = ({ tasks, onDelete, onComplete }) => {
   console.log('TasksList render');
 
   return (
-    <ul>
+    <ul className="task--list">
       {tasks.map(el => (
-        <li key={el._id} className={el.isCompleted ? 'completed ' : ''}>
-          <h3>{el.title}</h3>
-          <h5>{el.text}</h5>
+        <li
+          key={el._id}
+          className={
+            el.isCompleted ? 'task--list__item completed ' : 'task--list__item'
+          }
+        >
+          {' '}
+          <h3 className="task--list__title">{el.title}</h3>{' '}
+          <h5 className="task--list__text">{el.text}</h5>
           <p>
-            <span>Start:{el.start}</span>
+            <span className="task--list__date">Start: </span>
+            {el.start}
             <br />
-            <span>Finish:{el.finish}</span>
+            <span className="task--list__date">Finish: </span>
+            {el.finish}
           </p>{' '}
-          <Checkbox
-            checked={el.isCompleted}
+          <DeleteButton onDelete={onDelete} id={el._id} />
+          <IconButton
+            onClick={throttle(() => onComplete(el._id, el.isCompleted), 2000)}
             sx={{
-              color: pink[800],
-              '&.Mui-checked': {
-                color: pink[600],
+              color: 'rgb(240, 248, 255)',
+              '&:hover': {
+                color: 'rgb(3, 233, 244)',
               },
             }}
-          />
-          <button type="button" onClick={throttle(() => onDelete(el._id))}>
-            Delete
-          </button>{' '}
-          <button
-            type="button"
-            onClick={throttle(() => onComplete(el._id, el.isCompleted), 2000)}
           >
-            Complete
-          </button>{' '}
+            {el.isCompleted ? <DoneAllIcon /> : <RemoveDoneIcon />}
+          </IconButton>
         </li>
       ))}
     </ul>

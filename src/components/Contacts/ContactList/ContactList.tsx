@@ -4,13 +4,12 @@ import { Link } from 'react-router-dom';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 
 import ListItemText from '@mui/material/ListItemText';
 
 import './ContactList.scss';
+import EditButton from '../../shared/Buttons/EditButton/EditButton';
+import DeleteButton from '../../shared/Buttons/DeleteButton/DeleteButton';
 
 interface ContactsProps {
   contacts: ContactType[] | undefined;
@@ -43,32 +42,12 @@ const ContactList: FC<ContactsProps> = ({
                 {email}
               </ListItemText>{' '}
             </Link>
-            <IconButton
-              sx={{
-                color: '#ffffff',
-                marginRight: 1.5,
-                '&:hover': {
-                  color: 'rgb(3, 233, 244)',
-                },
-              }}
-              onClick={() => {
-                openModal();
-                getContactInfo(_id);
-              }}
-            >
-              <EditIcon />
-            </IconButton>{' '}
-            <IconButton
-              onClick={() => deleteContact(_id)}
-              sx={{
-                color: '#ffffff',
-                '&:hover': {
-                  color: 'rgb(3, 233, 244)',
-                },
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>{' '}
+            <EditButton
+              openModal={openModal}
+              getInfo={getContactInfo}
+              id={_id}
+            />
+            <DeleteButton onDelete={deleteContact} id={_id} />
           </ListItem>
         ))}
     </ul>

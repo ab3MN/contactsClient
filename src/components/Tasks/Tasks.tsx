@@ -7,6 +7,13 @@ import { ITaskForm, ITask } from './TaskType';
 import axios from 'axios';
 import { getFormatDate } from '../../helpers/getCurrentDay';
 
+import { TextField, TextareaAutosize, IconButton, Box } from '@mui/material';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import './Task.scss';
+import MyButton from '../shared/Buttons/MyButton/MyButton';
+import Modal from '../shared/Modal/Modal';
+import AddButton from '../shared/Buttons/AddButton/AddButton';
+
 const Tasks = () => {
   /* ==================== FETCH TASKS  ==================== */
   const [tasks, setTasks] = React.useState<ITask[]>([]);
@@ -25,11 +32,8 @@ const Tasks = () => {
   /* ==================== TASK  ==================== */
   const [task, setTask] = React.useState<ITaskForm>({ title: '', text: '' });
 
-  const handleChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>,
-  ): void => setTask({ ...task, [e.target.name]: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLFormElement>): void =>
+    setTask({ ...task, [e.target.name]: e.target.value });
 
   /* ==================== START FINISH DATE ==================== */
   const [startDate, setStartDate] = React.useState(new Date());
@@ -37,6 +41,14 @@ const Tasks = () => {
 
   const [finishDate, setFinishDate] = React.useState(new Date());
   const [isOpenFinishDate, setIsOpenFinishDate] = React.useState(false);
+
+  /* ==================== MADOL FINISH DATE ==================== */
+  const [isModalOpen, setModalOpen] = React.useState<boolean>(false);
+
+  const openModal = () => setModalOpen(true);
+  const _openModal = React.useCallback(openModal, []);
+
+  const handleCloseModal = () => setModalOpen(false);
 
   /* ==================== SUBMIT ==================== */
 
@@ -63,6 +75,7 @@ const Tasks = () => {
     }
 
     setTask({ title: '', text: '' });
+    handleCloseModal();
   };
 
   /* ==================== Delete ==================== */
@@ -98,85 +111,157 @@ const Tasks = () => {
   const _handleComplete = React.useCallback(handleComplete, []);
 
   /* ==================== CHANGE FINISH DATE ==================== */
-  const handleChangeFinishDate = (date: string) => {
-    console.log('aaaaaa');
-    console.log(date);
-  };
-  const _handleChangeFinishDate = React.useCallback(
-    () => handleChangeFinishDate,
-    [],
-  );
+  // const handleChangeFinishDate = (date: string) => {
+  //   console.log('aaaaaa');
+  //   console.log(date);
+  // };
+  // const _handleChangeFinishDate = React.useCallback(
+  //   () => handleChangeFinishDate,
+  //   [],
+  // );
 
   return (
     <section>
-      {/* ==================== FORM ==================== */}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">
-          Title :
-          <input
-            name="title"
-            id="title"
-            value={task.title}
+      <AddButton
+        openModal={_openModal}
+        style={{
+          top: -65,
+          m: '0 auto',
+        }}
+      />
+      {isModalOpen && (
+        <Modal onClose={handleCloseModal} style={{ height: '325px' }}>
+          {/* ==================== FORM ==================== */}
+          <form
+            onSubmit={handleSubmit}
             onChange={handleChange}
-            placeholder="Enter title"
-          />
-        </label>{' '}
-        <label htmlFor="text">
-          Text :
-          <textarea
-            name="text"
-            id="text"
-            value={task.text}
-            onChange={handleChange}
-            placeholder="Enter Text"
-          />
-        </label>{' '}
-        {/* ==================== START FINISH DATE ==================== */}
-        <button
-          type="button"
-          onClick={() => setIsOpenStartDate(!isOpenStartDate)}
-          data-set="start"
-        >
-          Select a start date
-        </button>
-        {isOpenStartDate && (
-          <DatePicker
-            onChange={e => {
-              e && setStartDate(e);
-              setIsOpenStartDate(!isOpenStartDate);
-            }}
-            calendarClassName="rasta-stripes"
-            peekNextMonth
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            inline
-          />
-        )}
-        <button
-          type="button"
-          onClick={() => setIsOpenFinishDate(!isOpenFinishDate)}
-          data-set="finish"
-        >
-          Select a finish date
-        </button>
-        {isOpenFinishDate && (
-          <DatePicker
-            name="finish"
-            onChange={e => {
-              e && setFinishDate(e);
-              setIsOpenFinishDate(!isOpenFinishDate);
-            }}
-            peekNextMonth
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            inline
-          />
-        )}
-        {/* ==================== SUBMIT ==================== */}
-        <button type="submit">Add Task</button>
-      </form>{' '}
+            className="task--form"
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                width: 400,
+                m: '30px auto',
+              }}
+            >
+              <TextField
+                id="input-task-title"
+                label="Task Title"
+                value={task.title}
+                name="title"
+                variant="standard"
+                sx={{
+                  input: {
+                    color: 'white',
+                    width: '400px',
+                  },
+                  label: {
+                    color: 'white',
+                  },
+                  '& .MuiInput-underline:after': {
+                    borderBottomColor: 'rgb(3, 233, 244)',
+                  },
+                  '& label.Mui-focused': {
+                    color: 'rgb(3, 233, 244)',
+                  },
+                }}
+              />{' '}
+            </Box>{' '}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                width: 400,
+                m: '0 auto',
+                mb: 2.5,
+              }}
+            >
+              <TextareaAutosize
+                id="input-task-text"
+                value={task.text}
+                name="text"
+                minRows={4}
+                maxRows={7}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                m: 1,
+              }}
+            >
+              <IconButton
+                onClick={() => setIsOpenStartDate(!isOpenStartDate)}
+                data-set="start"
+              >
+                Start:
+                <CalendarMonthIcon />
+              </IconButton>{' '}
+              <IconButton
+                onClick={() => setIsOpenFinishDate(!isOpenFinishDate)}
+                data-set="finish"
+              >
+                Finish:
+                <CalendarMonthIcon />
+              </IconButton>
+            </Box>{' '}
+            {/* ==================== DATA PICKER ==================== */}
+            {isOpenStartDate && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: -240,
+                }}
+              >
+                <DatePicker
+                  onChange={e => {
+                    e && setStartDate(e);
+                    setIsOpenStartDate(!isOpenStartDate);
+                  }}
+                  peekNextMonth
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  inline
+                  className="task__data--picker"
+                />
+              </Box>
+            )}
+            {isOpenFinishDate && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 500,
+                  borderRaduis: '10px',
+                }}
+              >
+                <DatePicker
+                  name="finish"
+                  onChange={e => {
+                    e && setFinishDate(e);
+                    setIsOpenFinishDate(!isOpenFinishDate);
+                  }}
+                  peekNextMonth
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  inline
+                  className="task__data--picker"
+                />
+              </Box>
+            )}
+            <MyButton
+              type="submit"
+              text="Add Task"
+              width="400px"
+              height="50px"
+            />
+          </form>{' '}
+        </Modal>
+      )}
+
       {/* ==================== TASK LIST ==================== */}
       {tasks.length >= 1 && (
         <TasksList
