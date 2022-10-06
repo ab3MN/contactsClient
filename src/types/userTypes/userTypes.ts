@@ -5,7 +5,7 @@ export interface IUser {
   isActivated: boolean;
   role: string;
   smallAvatarURL: string;
-  largerAvatarURL: string;
+  largeAvatarURL: string;
 }
 
 export interface IUserWithToken extends IUser {

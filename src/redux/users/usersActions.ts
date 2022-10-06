@@ -62,7 +62,7 @@ export interface IPatchUserAvatarStart {
 }
 export interface IPatchUserAvatarSucces {
   type: USER_TYPES.PATCH_USER_AVATAR_SUCCESS;
-  payload: { avatar: { smallAvatarURL: string; largerAvatarURL: string } };
+  payload: { avatar: { smallAvatarURL: string; largeAvatarURL: string } };
 }
 export interface IPatchUserAvatarError {
   type: USER_TYPES.PATCH_USER_AVATAR_ERROR;

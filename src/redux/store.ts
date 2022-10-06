@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import ReduxThunk from 'redux-thunk';
 import userReducer from './users/userReducer';
 import weatherReducer from './weather/weatherReducer';
@@ -18,7 +18,10 @@ const rootReducer = combineReducers({
   weather: weatherReducer,
 });
 
-const middleWare = [ReduxThunk, logger];
+const middleWare = [
+  ReduxThunk,
+  // logger
+];
 
 const enchancer =
   process.env.NODE_ENV === 'development'

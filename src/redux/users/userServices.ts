@@ -79,12 +79,22 @@ export const changeUserAvatar =
     try {
       d({ type: USER_TYPES.PATCH_USER_AVATAR_START });
       const { data } = await axios.patch('/users/avatar', formData, {});
+      const largeAvatarURL =
+        '/' +
+        data.largeAvatarURL.substring(
+          data.largeAvatarURL.indexOf('/user/avatars/') + 1,
+        );
+      const smallAvatarURL =
+        '/' +
+        data.smallAvatarURL.substring(
+          data.smallAvatarURL.indexOf('/user/avatars/') + 1,
+        );
       d({
         type: USER_TYPES.PATCH_USER_AVATAR_SUCCESS,
         payload: {
           avatar: {
-            smallAvatarURL: data.smallAvatarURL,
-            largerAvatarURL: data.largerAvatarURL,
+            smallAvatarURL,
+            largeAvatarURL,
           },
         },
       });

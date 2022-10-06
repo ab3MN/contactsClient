@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { IUser } from '../../types/userTypes/userTypes';
 import { IPatchUserAvatarSucces } from './usersActions';
 import {
   ILoginUserSuccess,
@@ -15,7 +16,15 @@ import {
 } from './usersActions';
 
 const userReducer = (
-  state = {},
+  state = {
+    password: '',
+    email: '',
+    subscription: '',
+    isActivated: '',
+    role: '',
+    smallAvatarURL: '',
+    largerAvatarURL: '',
+  },
   {
     type,
     payload,
@@ -34,7 +43,8 @@ const userReducer = (
     case USER_TYPES.USER_LOGOUT:
       return payload || state;
     case USER_TYPES.PATCH_USER_AVATAR_SUCCESS:
-      return Object.assign({ ...state, avatart: { ...payload.avatar } });
+      return Object.assign({ ...state, ...payload.avatar });
+
     default:
       return state;
   }
