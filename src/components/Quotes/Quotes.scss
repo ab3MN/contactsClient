@@ -1,0 +1,11 @@
+.quote {
+  &--text {
+    text-align: center;
+    font-size: 26px;
+    padding-bottom: 30px;
+    color: var(--text-color);
+  }
+  &--from {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,10 @@
+.contacts__section {
+  position: absolute;
+  width: 100%;
+  height: 3000px;
+
+  &--button {
+    position: fixed;
+    top: -65px;
+  }
+}

@@ -1,0 +1,12 @@
+.datebook--item {
+  max-width: 900px;
+  margin: 0 auto;
+  color: var(--text-color);
+
+  &__text {
+    text-align: center;
+    text-indent: 30px;
+    white-space: pre-wrap;
+    line-height: 1.5em;
+  }
+}

@@ -1,0 +1,11 @@
+.task--list {
+  &__name {
+    width: 200px;
+  }
+  &__text {
+    width: 400px;
+  }
+  &__date {
+    font-weight: bold;
+  }
+}

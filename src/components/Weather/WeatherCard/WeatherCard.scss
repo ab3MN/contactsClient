@@ -1,0 +1,28 @@
+.weather__card {
+  display: flex;
+  min-width: 300px;
+  max-width: 450px;
+  margin: 0 auto;
+  justify-content: space-around;
+  &--description {
+    div {
+      width: 50px;
+      margin: 0 auto;
+    }
+  }
+  &--name {
+    font-size: 28px;
+  }
+  &--temp {
+    font-size: 28px;
+    color: aqua;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 0;
+    span {
+      color: aqua;
+    }
+  }
+}

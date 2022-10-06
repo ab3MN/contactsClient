@@ -1,0 +1,39 @@
+.news--list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  &__item {
+    position: relative;
+    width: 550px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px 10px 20px;
+    border: 2px solid var(--text-color);
+    box-shadow: 0 0 5px var(--text-color), 0 0 25px var(--text-color);
+  }
+  &__link {
+    color: var(--text-color);
+  }
+
+  &__title,
+  &__description {
+    text-align: center;
+  }
+  &__description {
+    font-style: oblique;
+  }
+  &__date {
+    position: absolute;
+    bottom: -20px;
+    right: 20px;
+  }
+
+  &__item:hover {
+    .news--list__link {
+      color: var(--hover-color);
+    }
+    box-shadow: 0 0 5px var(--hover-color), 0 0 25px var(--hover-color),
+      0 0 50px var(--hover-color), 0 0 100px var(--hover-color);
+  }
+}

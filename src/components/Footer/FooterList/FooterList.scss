@@ -1,0 +1,27 @@
+.footer {
+  &__article {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__list {
+    margin: 20px 0 0;
+  }
+  &__list::before {
+    content: attr(aria-label);
+    font-size: 130%;
+    font-weight: bold;
+    height: 50px;
+    display: block;
+  }
+  &__list > li {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  &__link {
+    color: var(--text-color);
+  }
+  &__link:hover {
+    color: var(--hover-color);
+  }
+}

@@ -1,0 +1,59 @@
+.contact--item {
+  width: 500px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-color);
+  /* ==================== LEFT ==================== */
+  &__avatar--box {
+    width: 230px;
+    height: 230px;
+    border: double 0.5em transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(white, white),
+      linear-gradient(to right, green, gold);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+  }
+  &__avatar {
+    width: 230px;
+    height: 230px;
+    border-radius: 10px;
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__upload {
+    display: block;
+    padding: 5px;
+  }
+  &__upload:hover {
+    background-color: var(--hover-color);
+    border-radius: 10px;
+  }
+  /* ==================== RIGHT ==================== */
+  &__info {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+  }
+  &__info h4 {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__info > * {
+    margin: 0;
+    padding-bottom: 15px;
+  }
+}
+
+.contact--item .upload__image--box {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+}

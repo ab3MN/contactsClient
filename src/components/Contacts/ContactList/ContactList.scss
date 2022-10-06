@@ -1,0 +1,36 @@
+.contacts--list {
+  display: block;
+  max-width: 900px;
+  margin: 0 auto;
+
+  &__link {
+    display: flex;
+    color: var(--text-color);
+    text-decoration: none;
+    align-items: center;
+  }
+  &__link:hover {
+    color: var(--hover-color);
+  }
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 30px;
+  }
+
+  &__img {
+    padding-right: 20px;
+  }
+  &__name {
+    padding-right: 30px;
+    width: 200px;
+  }
+  &__email {
+    padding-right: 30px;
+    width: 400px;
+  }
+  &__btn {
+    margin: 0 15px;
+  }
+}

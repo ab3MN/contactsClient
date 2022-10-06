@@ -1,0 +1,26 @@
+.form__editor--box {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bgc-color);
+  border-radius: 10px;
+  box-shadow: 0 15px 25px var(--bgc-color);
+}
+
+.contact--editor {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
+
+  &__box {
+    & div {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__box:first-child {
+    margin-top: 30px;
+  }
+}

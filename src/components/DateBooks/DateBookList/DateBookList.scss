@@ -1,0 +1,21 @@
+.dateBook--list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 900px;
+  margin: 0 auto 20px;
+
+  &__item {
+    width: 200px;
+    color: var(--text-color);
+  }
+  &__item--link {
+    color: var(--text-color);
+    text-decoration: none;
+    text-align: center;
+  }
+  &__item--link:hover {
+    color: var(--hover-color);
+  }
+}

@@ -1,0 +1,29 @@
+.footer {
+  color: var(--text-color);
+
+  width: 100%;
+  height: 300px;
+  background-color: var(--bgc-color);
+
+  &__article {
+    display: flex;
+    justify-content: space-around;
+  }
+  &__icons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    > p {
+      font-weight: bold;
+    }
+
+    &--date {
+      color: aquamarine;
+    }
+    &--link-text {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+}

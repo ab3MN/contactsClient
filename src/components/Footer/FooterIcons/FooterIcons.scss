@@ -1,0 +1,14 @@
+.footer__icons {
+  &--list {
+    display: flex;
+  }
+  &--list > li {
+    padding: 0 5px;
+  }
+  &--link {
+    color: var(--text-color);
+  }
+  &--link:hover {
+    color: var(--hover-color);
+  }
+}

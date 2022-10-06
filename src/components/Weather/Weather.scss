@@ -1,0 +1,13 @@
+.weather {
+  &__section {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  &__form {
+    width: 220px;
+    margin: 0 auto;
+    display: flex;
+    margin-bottom: 20px;
+  }
+}

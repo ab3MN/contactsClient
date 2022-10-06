@@ -1,0 +1,23 @@
+.completed {
+  color: black;
+  text-decoration: line-through;
+}
+
+.task--list {
+  display: block;
+  width: 1000px;
+  margin: 0 auto;
+  color: var(--text-color);
+  padding: 0;
+
+  &__title {
+    text-align: center;
+    color: var(--text-color);
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
