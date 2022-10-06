@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { IUser } from '../../types/userTypes/userTypes';
 import { IPatchUserAvatarSucces } from './usersActions';
 import {
   ILoginUserSuccess,
