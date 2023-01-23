@@ -1,7 +1,7 @@
 import axios from 'axios';
 export {};
 
-axios.defaults.baseURL = 'https://guarded-coast-33180.herokuapp.com';
+axios.defaults.baseURL = 'https://brainy-tutu.cyclic.app';
 axios.defaults.withCredentials = true;
 
 declare global {
