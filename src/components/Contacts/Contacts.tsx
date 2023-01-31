@@ -128,8 +128,8 @@ const Contacts = () => {
     () =>
       contacts.filter(
         el =>
-          el.email.toLowerCase().includes(contactFilter.toLowerCase()) ||
-          el.name.toLowerCase().includes(contactFilter.toLowerCase()),
+          el?.email?.toLowerCase().includes(contactFilter.toLowerCase()) ||
+          el?.name?.toLowerCase().includes(contactFilter.toLowerCase()),
       ),
     [contacts, contactFilter],
   );

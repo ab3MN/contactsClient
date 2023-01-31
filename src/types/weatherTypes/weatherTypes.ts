@@ -1,10 +1,8 @@
 export interface IWeather {
-  source: { id: null | string; name: string };
-  author: string;
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  publishedAt: string;
-  content: string;
+  main: { temp: number; pressure: number; humidity: number };
+  weather: Array<{ main: string; description: string; icon: string }>;
+  name: string;
+  wind: {
+    speed: string;
+  };
 }
